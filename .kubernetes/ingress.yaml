@@ -1,0 +1,46 @@
+# ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: <INGRESS_NAME>
+  namespace: <NAMESPACE>
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/path/to/application"
+    nginx.ingress.kubernetes.io/body-size: "102400m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "102400m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "7200"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "7200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "7200"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "0"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy_max_temp_file_size: "102400m"
+    nginx.ingress.kubernetes.io/large-client-header-buffers: "8 52m"
+    nginx.ingress.kubernetes.io/client-header-buffer-size: "52m"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "102400m"
+    nginx.ingress.kubernetes.io/client-max-body-size: "102400m"
+    nginx.ingress.kubernetes.io/client_body_timeout: "7200"
+    nginx.org/client-max-body-size: "102400m"
+    nginx.org/proxy-read-timeout: "7200"
+    nginx.org/websocket-services: core-service
+spec:
+  ingressClassName: nginx
+  # If you have tls certificate, uncomment below and change the values to correct values
+  # tls:
+  #   - hosts:
+  #     - <HOST_DOMAIN>
+  #     secretName: <TLS_SECRET_NAME>
+  rules:
+    # You can specify which domain to serve the application or you can comment it out
+    - host: <HOST_DOMAIN>
+      http:
+        paths:
+          - path: /path/to/application/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: <APPLICATION_NAME>
+                port:
+                  number: 80
