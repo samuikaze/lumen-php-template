@@ -91,10 +91,10 @@ jobs:
           # 指定要部署的文件名稱與位置
           # 也可以指定資料夾，這個 Action 會把資料夾下的所有 yaml 檔案拿出來部署
           manifests: |
-            kubernetes/deployment.real.yaml
+            kubernetes/deployment.production.yaml
           # 要部署的應用程式所在 namespace
           # Service Account 所在的 namespace 也要一樣，否則部署會因權限被拒絕
-          namespace: for-test-deploy
+          namespace: <NAMESPACE>
           # 這邊宣告部署檔中的 image
           # 由於 image 版本是 git commit 的 hash 字串
           # 在這邊宣告完後，這樣這個 Action 就會去找 yaml 中 image 欄位符合 ${{ secrets.REGISTRY_URL }}/${{ vars.APP_NAME }} 者取代其版本的字串
