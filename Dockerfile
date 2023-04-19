@@ -46,6 +46,7 @@ COPY ./ ./
 
 COPY ./.infrastructures/php-fpm/php.conf /usr/local/etc/php/php.ini
 COPY ./.infrastructures/php-fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY ./resources/configurations/php-fpm/99-www.conf /usr/local/etc/php-fpm.d/99-www.conf
 COPY ./.infrastructures/nginx/default.conf /etc/nginx/nginx.conf
 COPY ./.infrastructures/nginx/nginx-custom.conf /etc/nginx/conf.d/default.conf
 COPY ./.infrastructures/supervisord/supervisord.conf /etc/supervisord.conf
@@ -80,4 +81,4 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
     && rm -rf /var/cache/apk/* \
     && rm -f /usr/local/bin/composer
 
-ENTRYPOINT ["supervisord", "-n"]
+ENTRYPOINT ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
