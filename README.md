@@ -11,3 +11,5 @@
 ## 參考資料
 
 - [How to set up file permissions for Laravel?](https://stackoverflow.com/a/37266353)
+- [Laravel9 Production環境容器化](https://ciao-chung.com/page/article/laravel9-production-dockerize)
+- [Linux: PHP-FPM, Docker, STDOUT and STDERR – no an application’s error logs](https://devpress.csdn.net/linux/62eba63f648466712833a89c.html)
