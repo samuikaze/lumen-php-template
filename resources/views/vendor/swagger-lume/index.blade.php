@@ -200,7 +200,7 @@
 
                 onComplete: () => {
                   const baseUri = location.href.replace("{{ config('swagger-lume.routes.api') }}", '');
-                  const htmlString = `<a href="${baseUri}/docs" target="_blank">${baseUri}/docs</a>`;
+                  const htmlString = `<a href="${baseUri}{{ config('swagger-lume.routes.docs') }}" target="_blank">${baseUri}{{ config('swagger-lume.routes.docs') }}</a>`;
                   let child = document.createElement("div");
                   child.innerHTML = htmlString.trim();
 

@@ -20,36 +20,36 @@ abstract class BaseRepository
     protected $model;
 
     /**
-     * 是否自動以 Transaction 進行資料庫資料變更
+     * 是否自動提交資料庫交易
      *
      * @var bool;
      */
-    protected $auto_transaction = true;
+    protected $auto_commit = true;
 
     /**
-     * 設定是否自動以 Transaction 進行資料庫資料變更，預設為 true
+     * 設定是否自動提交資料庫交易，預設為 true
      *
-     * @param bool $auto_transaction
+     * @param bool $auto_commit
      * @return void
      */
-    public function setAutoTransaction(bool $auto_transaction): void
+    public function setAutoCommit(bool $auto_commit): void
     {
-        $this->auto_transaction = $auto_transaction;
+        $this->auto_commit = $auto_commit;
     }
 
     /**
-     * 自訂 Transaction 範圍
+     * 自訂資料庫交易範圍
      *
      * @param \Closure $transactions
      * @return void
      */
     public function transactionClosure(Closure $transactions): void
     {
-        $this->setAutoTransaction(false);
+        $this->setAutoCommit(false);
 
         DB::transaction($transactions);
 
-        $this->setAutoTransaction(true);
+        $this->setAutoCommit(true);
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class BaseRepository
      */
     public function bulkCreate(array|BaseCollection $attributes): BaseCollection
     {
-        if ($this->auto_transaction) {
+        if ($this->auto_commit) {
             DB::beginTransaction();
         }
 
@@ -113,13 +113,13 @@ abstract class BaseRepository
                 $model->save();
             }
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::commit();
             }
         } catch (Exception $e) {
             report($e);
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::rollBack();
             }
 
@@ -155,7 +155,7 @@ abstract class BaseRepository
      */
     public function safeUpdate(int $id, array $attributes): Model
     {
-        if ($this->auto_transaction) {
+        if ($this->auto_commit) {
             DB::beginTransaction();
         }
 
@@ -171,13 +171,13 @@ abstract class BaseRepository
 
             $model->save();
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::commit();
             }
         } catch (Exception $e) {
             report($e);
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::rollBack();
             }
 
@@ -195,20 +195,20 @@ abstract class BaseRepository
      */
     public function modelSafeUpdate(Model $model): Model
     {
-        if ($this->auto_transaction) {
+        if ($this->auto_commit) {
             DB::beginTransaction();
         }
 
         try {
             $model->save();
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::commit();
             }
         } catch (Exception $e) {
             report($e);
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::rollBack();
             }
 
@@ -226,7 +226,7 @@ abstract class BaseRepository
      */
     public function bulkModelSafeUpdate(array|BaseCollection $models): BaseCollection
     {
-        if ($this->auto_transaction) {
+        if ($this->auto_commit) {
             DB::beginTransaction();
         }
 
@@ -235,13 +235,13 @@ abstract class BaseRepository
                 $model->save();
             }
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::commit();
             }
         } catch (Exception $e) {
             report($e);
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::rollBack();
             }
 
@@ -293,7 +293,7 @@ abstract class BaseRepository
             $ids = $ids->toArray();
         }
 
-        if ($this->auto_transaction) {
+        if ($this->auto_commit) {
             DB::beginTransaction();
         }
 
@@ -311,13 +311,13 @@ abstract class BaseRepository
                 $model->save();
             }
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::commit();
             }
         } catch (Exception $e) {
             report($e);
 
-            if ($this->auto_transaction) {
+            if ($this->auto_commit) {
                 DB::rollBack();
             }
 

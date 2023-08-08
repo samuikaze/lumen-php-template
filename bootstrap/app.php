@@ -80,7 +80,7 @@ foreach ($config_files as $file) {
 */
 
 $app->middleware([
-    App\Http\Middleware\IncomingRequestLogGenerator::class,
+    App\Http\Middleware\RequestLogger::class,
     App\Http\Middleware\HandleCorsHeaders::class,
 ]);
 

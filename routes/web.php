@@ -13,4 +13,4 @@
 |
 */
 
-$router->get('/test', 'ExampleController@test');
+$router->get('/heartbeat', 'DemoTestController@heartbeat');

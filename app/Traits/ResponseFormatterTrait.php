@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
 
-trait ResponseFormatter
+trait ResponseFormatterTrait
 {
     /**
      * 格式化返回的資料
@@ -50,9 +50,12 @@ trait ResponseFormatter
     {
         $error = $error->toArray();
 
-        $error = collect($error)->map(function ($error) {
-            return $error[0];
-        })->values()->join('、');
+        $error = collect($error)
+            ->map(function ($error) {
+                return $error[0];
+            })
+            ->values()
+            ->join('、');
 
         return $error;
     }

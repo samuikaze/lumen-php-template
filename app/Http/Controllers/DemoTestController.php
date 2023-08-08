@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
  *   description="範例相關"
  * )
  */
-class ExampleController extends Controller
+class DemoTestController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,17 +25,17 @@ class ExampleController extends Controller
     }
 
     /**
-     * 測試
+     * 心跳
      *
      * @return \Illuminate\Http\JsonResponse
      *
      * @OA\Get(
      *   path="/test",
-     *   summary="測試",
+     *   summary="心跳",
      *   tags={"Example v1"},
      *   @OA\Response(
      *     response="200",
-     *     description="測試回應",
+     *     description="心跳回應",
      *     @OA\JsonContent(
      *       allOf={
      *         @OA\Schema(ref="#/components/schemas/BaseResponse"),
@@ -51,7 +51,7 @@ class ExampleController extends Controller
      *   )
      * )
      */
-    public function test(): JsonResponse
+    public function heartbeat(): JsonResponse
     {
         return $this->response(data: 'Ok.');
     }

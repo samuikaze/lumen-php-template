@@ -1,4 +1,4 @@
-FROM php:8.2.4-fpm-alpine3.16
+FROM php:8.2.8-fpm-alpine3.18
 
 EXPOSE 80
 
@@ -53,12 +53,9 @@ COPY ./.infrastructures/supervisord/supervisord.conf /etc/supervisord.conf
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
     && cp .env.example .env \
-    # 請勿使用 `composer update` 指令安裝，否則自動注入會失敗
     && composer install --no-dev --no-scripts \
     && composer clear-cache \
-    # 移除非必要的設定
     && sed -i "/TinkerServiceProvider::class/d" ./bootstrap/app.php \
-    # 確定 PHP 有權限可以寫入與讀取 storage 資料夾
     && chown -R $USER:www-data . \
     && find . -type f -exec chmod 644 {} \; \
     && find . -type d -exec chmod 755 {} \; \
@@ -72,11 +69,9 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
     && sed -i "/ApplicationKeyGenerator::class/d" ./app/Console/Kernel.php \
     && sed -i "/DevelopmentServer::class/d" ./app/Console/Kernel.php \
     && sed -i "/operationId/d" ./storage/api-docs/api-docs.json \
-    # 移除非必要的檔案
     && rm -rf ./.infrastructures \
     && rm -f .env.example \
     && rm -f ./config/tinker.php \
-    # 處理自動注入
     && composer dump-autoload \
     && rm -rf /var/cache/apk/* \
     && rm -f /usr/local/bin/composer
