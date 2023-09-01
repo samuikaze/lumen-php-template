@@ -82,6 +82,11 @@ jobs:
       # 這個之前測試沒有成功，如要使用需要先做測試，可以參考 README 中的 Write Secrets to File 連結
       # - name: Get deployment yaml from secret
       #   run: echo "${{ secrets.DEPLOYMENT_MANIFEST }}" | base64 --decode >> ./kubernetes/deployment.yaml
+      # 若是公開的 Repository 但又不想公開私有映像儲存庫的位址時
+      # 請先將該位址以名稱 REGISTRY_URL 儲存於 GitHub 的 secret 中，再將下面三行註解打開
+      # - name: Replace registry uri
+      #   run: |
+      #     sed -i 's/$secrets.REGISTRY_URL/${{ secrets.REGISTRY_URL }}/g' ./.kubernetes/deployment.yaml
       - name: Deploy to the Kubernetes cluster
         uses: azure/k8s-deploy@v4
         with:
@@ -91,7 +96,7 @@ jobs:
           # 指定要部署的文件名稱與位置
           # 也可以指定資料夾，這個 Action 會把資料夾下的所有 yaml 檔案拿出來部署
           manifests: |
-            kubernetes/deployment.production.yaml
+            .kubernetes/deployment.yaml
           # 要部署的應用程式所在 namespace
           # Service Account 所在的 namespace 也要一樣，否則部署會因權限被拒絕
           namespace: <NAMESPACE>

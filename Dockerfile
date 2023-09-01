@@ -4,12 +4,14 @@ EXPOSE 80
 
 WORKDIR /
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
 RUN apk update \
     && apk add --no-cache \
         ca-certificates \
         curl \
         nginx \
-        openssl \
+        openssl-dev \
         supervisor \
         tar \
         xz \
@@ -19,8 +21,8 @@ RUN apk update \
         freetype-dev \
         # 郵件功能
         # imap-dev \
-        # SOAP 相關功能
         # krb5-dev \
+        # SOAP 相關功能
         # libressl-dev \
         # libxml2-dev \
         # ZIP 功能
