@@ -13,6 +13,15 @@ use Laravel\Lumen\Routing\Controller as BaseController;
  *     description="<專案名稱>的 API 文件"
  *   )
  * )
+ * @OA\SecurityScheme(
+ *   type="http",
+ *   description="登入驗證",
+ *   name="Token based Based",
+ *   in="header",
+ *   scheme="bearer",
+ *   bearerFormat="JWT",
+ *   securityScheme="apiAuth",
+ * )
  */
 class Controller extends BaseController
 {

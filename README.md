@@ -19,3 +19,4 @@
 - [How to set up file permissions for Laravel?](https://stackoverflow.com/a/37266353)
 - [Laravel9 Production環境容器化](https://ciao-chung.com/page/article/laravel9-production-dockerize)
 - [Linux: PHP-FPM, Docker, STDOUT and STDERR – no an application’s error logs](https://devpress.csdn.net/linux/62eba63f648466712833a89c.html)
+- [Bearer Authorization setup](https://github.com/DarkaOnLine/SwaggerLume/issues/70#issuecomment-489388479)
