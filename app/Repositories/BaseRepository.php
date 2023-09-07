@@ -352,4 +352,70 @@ abstract class BaseRepository
             ->whereIn($this->model->getKeyName(), $ids)
             ->delete();
     }
+
+    /**
+     * 刪除指定資料
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function safeDelete(int $id): bool
+    {
+        if ($this->auto_commit) {
+            DB::beginTransaction();
+        }
+
+        try {
+            $effected = $this->model
+                ->where($this->model->getKeyName(), $id)
+                ->delete();
+
+            if ($this->auto_commit) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            report($e);
+
+            if ($this->auto_commit) {
+                DB::rollBack();
+            }
+
+            throw $e;
+        }
+
+        return $effected;
+    }
+
+    /**
+     * 大量刪除資料
+     *
+     * @param array<int, int>|\Illuminate\Support\Collection<int, int> $ids
+     * @return bool
+     */
+    public function bulkSafeDelete(array|Collection $ids): bool
+    {
+        if ($this->auto_commit) {
+            DB::beginTransaction();
+        }
+
+        try {
+            $effected = $this->model
+                ->whereIn($this->model->getKeyName(), $ids)
+                ->delete();
+
+            if ($this->auto_commit) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            report($e);
+
+            if ($this->auto_commit) {
+                DB::rollBack();
+            }
+
+            throw $e;
+        }
+
+        return $effected;
+    }
 }
