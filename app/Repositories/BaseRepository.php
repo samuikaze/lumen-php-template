@@ -56,9 +56,9 @@ abstract class BaseRepository
      * 以單一 ID 取得資料
      *
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function find(int $id): Model
+    public function find(int $id): Model | null
     {
         return $this->model->find($id);
     }
