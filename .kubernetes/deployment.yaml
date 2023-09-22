@@ -16,6 +16,29 @@ spec:
       labels:
         app: <APPLICATION_NAME>
     spec:
+      # 若有需要使用 PVC 請打開以下註解
+      # volumes:
+      #   - name: <VOLUME_NAME>
+      #     persistentVolumeClaim:
+      #       claimName: <PVC_NAME>
+      # 若 PVC 類型為 HostPath 且有權限問題，請利用 initContainers 將資料夾權限修改為 php-fpm 的執行 uid
+      # 非 HostPath 類型的 PVC 請利用 securityContext 修改 fsGroup
+      # uid 可以透過 id <USERNAME> 指令取得
+      # initContainers:
+      #   - name: change-owner
+      #     image: busybox:latest
+      #     command:
+      #     - /bin/chown
+      #     - -R
+      #     - "82:82"
+      #     # 在容器中的資料夾完整路徑
+      #     # 支援多筆資料夾，用陣列值分隔
+      #     - <FOLDER_PATH_IN_CONTAINER_1>
+      #     # 執行的容器怎麼 mount volume 這邊就跟著照做
+      #     volumeMounts:
+      #       - name: <VOLUME_NAME>
+      #         mountPath: <HOST_PATH_1>
+      #         subPath: <FOLDER_NAME_2>
       containers:
         - name: <APPLICATION_NAME>
           image: <REGISTRY_URL>/<IMAGE_NAME>:latest
@@ -29,6 +52,23 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
+          # 若需使用環境變數，請打開以下註解
+          # env:
+          #   - name: <ENV_NAME_1>
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: <SECRET_NAME>
+          #         key: <SECRET_KEY>
+          #   - name: <ENV_NAME_1>
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: <CONFIG_MAP_NAME>
+          #         key: <CONFIG_MAP_KEY>
+          # 若有需要使用 PVC 請打開以下註解
+          # volumeMounts:
+          #   - name: <VOLUME_NAME>
+          #     mountPath: <HOST_PATH_1>
+          #     subPath: <FOLDER_NAME_2>
 
 ---
 # service.yaml
