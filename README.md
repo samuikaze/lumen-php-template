@@ -1,4 +1,7 @@
+<!-- markdownlint-disable MD033 -->
 # Lumen 9 With PHP 8.2 Template
+
+**⚠️ 由於官方目前推薦透過 [Laravel](https://laravel.com/docs/11.x) 起始專案，因此將此專案落日，請改以 [此模板](https://github.com/samuikaze/laravel-php-template) 起始專案 ⚠️**
 
 這是一個使用 PHP 8.2.8 版的 Lumen 9 模板專案，用於快速起始新的專案用
 
